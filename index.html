@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>pantry & pin · kitchen + textile</title>
+  <!-- tailwind + casual serif (Cormorant Garamond) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Cormorant Garamond', serif; }
+    body {
+      background: #faf3e9;
+      color: #2f3e3c;
+      margin: 0;
+    }
+    /* container with max-width limit (cozy) */
+    .pantry-wrap {
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+    /* headings – soft, bookish */
+    h2 {
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: #6c4f3a;
+      letter-spacing: 0.02rem;
+      border-bottom: 2px dotted #dbb68c;
+      padding-bottom: 0.5rem;
+      margin: 3rem 0 1.5rem;
+    }
+    h3 {
+      font-size: 2.2rem;
+      font-weight: 350;
+      color: #75604b;
+      margin: 1.2rem 0 0.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    h3:before {
+      content: '⚬';
+      font-size: 3rem;
+      color: #bf9f80;
+    }
+    /* new card identity — warm, rounded, with woven texture */
+    .pantry-card {
+      background: #fffcf3;
+      border: 1px solid #e7d4bd;
+      border-radius: 80px 16px 80px 16px;
+      box-shadow: 10px 14px 28px -20px #9b846d;
+      padding: 2.5rem 2.8rem;
+      margin: 2.2rem 0 3rem;
+      background-image: repeating-linear-gradient(45deg, #fcf3e6 0px, #fcf3e6 12px, #fffbf5 12px, #fffbf5 24px);
+      transition: all 0.2s;
+    }
+    .pantry-card:hover {
+      background: #fffcf0;
+      background-image: repeating-linear-gradient(45deg, #fff9ed 0px, #fff9ed 12px, #ffffff 12px, #ffffff 24px);
+      box-shadow: 16px 22px 32px -18px #745f4b;
+    }
+    .pantry-card ul {
+      padding-left: 2rem;
+      list-style: none;
+    }
+    .pantry-card li {
+      margin-bottom: 0.9rem;
+      font-size: 1.25rem;
+      font-weight: 340;
+      display: flex;
+      align-items: baseline;
+    }
+    .pantry-card li:before {
+      content: '✤';
+      color: #ac8b6b;
+      font-weight: 400;
+      margin-right: 1rem;
+    }
+    .pantry-note {
+      background: #ebdfce;
+      border-radius: 30px 4px 30px 4px;
+      padding: 1.2rem 2rem;
+      font-size: 1.2rem;
+      border-left: 12px solid #b29378;
+      margin: 2rem 0 0.5rem;
+    }
+    hr {
+      border: none;
+      height: 4px;
+      background: url('data:image/svg+xml;utf8,<svg width="40" height="12" viewBox="0 0 40 12" xmlns="http://www.w3.org/2000/svg"><circle cx="6" cy="6" r="4" fill="%23dab88f"/><circle cx="20" cy="6" r="4" fill="%23dab88f"/><circle cx="34" cy="6" r="4" fill="%23dab88f"/></svg>');
+      background-repeat: repeat-x;
+      width: 90%;
+      margin: 3rem auto;
+      opacity: 0.5;
+    }
+    /* header — pantry style */
+    .pantry-header {
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+      background: #b99f85;
+      background-image: linear-gradient(120deg, #cbb295, #ae8d70);
+      padding: 4.5rem 0;
+      text-align: center;
+      color: #2f312b;
+      border-bottom: 14px double #efe3d4;
+    }
+    /* images with soft border */
+    .pantry-img {
+      border-radius: 30% 4% 30% 4% / 8% 40% 8% 40%;
+      box-shadow: 20px 20px 30px -20px #4d453a;
+      margin: 2rem 0 1rem;
+      width: 100%;
+      max-height: 460px;
+      object-fit: cover;
+      border: 3px solid #ebdccb;
+    }
+    .img-sub {
+      text-align: center;
+      font-size: 1rem;
+      color: #a78669;
+      letter-spacing: 2px;
+      margin-top: -1.5rem;
+      margin-bottom: 2rem;
+    }
+    /* cookie modal — different shape (larder) */
+    .larder-modal {
+      background: #f8efe2;
+      border: 6px double #91755a;
+      border-radius: 200px 20px 200px 20px;
+      max-width: 580px;
+      padding: 3rem 2.5rem;
+      box-shadow: 0 40px 40px -20px #463a2e;
+    }
+    #larderOverlay {
+      background: rgba(70, 60, 46, 0.7);
+      backdrop-filter: blur(3px);
+      z-index: 9999;
+    }
+  </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SBJZ7C7VV0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SBJZ7C7VV0');
+</script>
+
+</head>
+<body>
+
+  <!-- COOKIE MODAL – new name: larder consent, identical behaviour -->
+  <div id="larderOverlay" class="fixed inset-0 z-50 flex items-center justify-center p-5" style="display: flex;">
+    <div class="larder-modal relative">
+      <button id="closeLarderX" class="absolute top-8 right-8 text-5xl text-stone-600 hover:text-stone-900 leading-6">&times;</button>
+      <span class="text-8xl block mb-4">🍯</span>
+      <h3 class="text-5xl font-light text-[#674f3c]">pantry & pin</h3>
+      <p class="text-2xl my-4">before we talk pots and pins — just a nod to privacy. no tracking, just advice.</p>
+      <div class="flex gap-5 mt-8 justify-center">
+        <button id="acceptLarderBtn" class="bg-[#846b51] hover:bg-[#66503d] text-white px-12 py-4 rounded-full text-2xl shadow">enter</button>
+        <button id="declineLarderBtn" class="bg-stone-200 hover:bg-stone-300 px-12 py-4 rounded-full text-2xl">dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const overlay = document.getElementById('larderOverlay');
+      const accept = document.getElementById('acceptLarderBtn');
+      const decline = document.getElementById('declineLarderBtn');
+      const closeX = document.getElementById('closeLarderX');
+      overlay.style.display = 'flex';
+      document.body.style.overflow = 'auto';
+      function dismissOverlay() {
+        overlay.style.transition = 'opacity 0.3s';
+        overlay.style.opacity = '0';
+        setTimeout(() => { overlay.style.display = 'none'; }, 300);
+      }
+      if (accept) accept.addEventListener('click', dismissOverlay);
+      if (decline) decline.addEventListener('click', dismissOverlay);
+      if (closeX) closeX.addEventListener('click', dismissOverlay);
+    })();
+  </script>
+
+  <!-- header: new name, pantry theme -->
+  <div class="pantry-header">
+    <div class="pantry-wrap">
+      <p class="text-amber-900 text-lg uppercase tracking-[.6em]">keep it · stitch it · stew it</p>
+      <h1 class="text-7xl md:text-8xl font-thin text-[#2f3530] tracking-wide">pantry & pin</h1>
+      <p class="text-2xl text-stone-800 max-w-2xl mx-auto mt-2">heirlooms, textiles, kitchen goods — advice to shop wisely</p>
+    </div>
+  </div>
+
+  <main class="pantry-wrap pb-28">
+
+    <!-- intro – different soft opener -->
+    <div class="mt-16 mb-6 flex flex-wrap gap-5 items-center">
+      <span class="text-8xl opacity-20">⸻</span>
+      <p class="text-2xl text-stone-700 italic max-w-3xl">what lasts — linen aprons, bread bowls, and the scissors that cut twine for decades.</p>
+    </div>
+
+    <!-- lead image: kitchen textiles -->
+    <img src="https://plus.unsplash.com/premium_photo-1680098057218-070cf9a653f7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+         alt="vintage kitchen linen" 
+         class="pantry-img">
+    <div class="img-sub">antique market · table linens</div>
+
+    <!-- SECTION 1 – aprons & workwear -->
+    <section>
+      <h2>① aprons · labour & linen</h2>
+      <img src="https://images.unsplash.com/photo-1758522275190-83da0bfd87e3?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+           alt="canvas apron" class="pantry-img">
+      <div class="pantry-card">
+        <h3>shopping for aprons</h3>
+        <ul>
+          <li>look for “bib apron” full coverage — better for markets & canning.</li>
+          <li>fabric: heavy linen or cotton duck (12 oz+). avoid polyester blends.</li>
+          <li>adjustable neck strap — brass hardware lasts.</li>
+          <li>second‑hand: old carpenter’s aprons at “Stary Mieszkanie” (Łódź).</li>
+        </ul>
+        <div class="pantry-note">🧵 a worn apron tells stories — but check that the waistband isn’t rotted.</div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- SECTION 2 – cast iron / enamel cookware -->
+    <section>
+      <h2>② cookware · cast & enamel</h2>
+      <img src="https://images.unsplash.com/photo-1723927372931-d2c810807894?q=80&w=1148&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+           alt="enamel pot" class="pantry-img">
+      <div class="pantry-card">
+        <h3>what to inspect</h3>
+        <ul>
+          <li>enamel: tiny chips are OK if not on rim; large cracks = no.</li>
+          <li>vintage “Emalia Oława” — smooth finish, bright colours.</li>
+          <li>cast iron (uncoated): pitting is fine, deep rust needs electrolysis.</li>
+          <li>price check: flea market pots 20–60 zł, online doubles.</li>
+        </ul>
+        <div class="pantry-note">⚬ boil potato peels in newly acquired enamel to clean & deodorise.</div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- SECTION 3 – kitchen shears / scissors -->
+    <section>
+      <h2>③ scissors · last heirloom</h2>
+      <img src="https://plus.unsplash.com/premium_photo-1663841374943-1b79e9aaed36?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+           alt="vintage scissors" class="pantry-img">
+      <div class="pantry-card">
+        <h3>sharp advice</h3>
+        <ul>
+          <li>look for forged scissors (one piece continuous through handles).</li>
+          <li>brands: “Solingen”, “Zarys”, old “Wiss” — can be resharpened forever.</li>
+          <li>test pivot: should be snug, no lateral wiggle.</li>
+          <li>haberdashery “Nitka” (Kraków) has buckets of old shears.</li>
+        </ul>
+        <div class="mt-5 text-lg border-l-4 border-[#b99e85] pl-4">✁ don't use fabric scissors on paper — ever.</div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- SECTION 4 – bread bowls / woodenware -->
+    <section>
+      <h2>④ wooden bowls · dough worthy</h2>
+      <img src="https://images.unsplash.com/photo-1609687992670-6232aa115e27?q=80&w=1240&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+           alt="wooden bowl" class="pantry-img">
+      <div class="pantry-card">
+        <h3>choosing wood</h3>
+        <ul>
+          <li>beech, maple, or oak — tight grain, no cracks.</li>
+          <li>avoid excessive glue seams; one piece is best for bread.</li>
+          <li>smell it: should be woody, not musty or sour.</li>
+          <li>carpathian market stalls (Użhorod) — hand carved linden wood.</li>
+        </ul>
+        <div class="pantry-note">🪵 season with mineral oil and beeswax, never vegetable oil (rancid).</div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- SECTION 5 – table linen (napkins / runners) -->
+    <section>
+      <h2>⑤ table linens · flax heirlooms</h2>
+      <img src="https://plus.unsplash.com/premium_photo-1676977396010-06babd535207?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+           alt="linen napkins" class="pantry-img">
+      <div class="pantry-card">
+        <h3>finding quality</h3>
+        <ul>
+          <li>look for hand‑rolled hems — machine overlock means newer.</li>
+          <li>damask patterns (jacquard) often high thread count.</li>
+          <li>stains? sometimes can be sun‑bleached.</li>
+          <li>charity shops in smaller towns (e.g. Tarnów) piles of 60s linen.</li>
+        </ul>
+        <div class="mt-5 text-stone-600">🕯️ mix matched napkins — no need full set.</div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- SECTION 6 – preserving jars / weck -->
+    <section>
+      <h2>⑥ jars · clamp & rubber</h2>
+      <img src="https://images.unsplash.com/photo-1645871306587-bebaa2f1dfc0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+           alt="Weck jars" class="pantry-img">
+      <div class="pantry-card">
+        <h3>jar hunting</h3>
+        <ul>
+          <li>Weck (trademark) — still made, rubber rings replaceable.</li>
+          <li>check rim for chips; glass lids interchangeable.</li>
+          <li>old french “Le Parfait” jars are thick, clamps often rusted but replaceable.</li>
+          <li>basements / cellar sales: sometimes whole crates for 5€.</li>
+        </ul>
+        <div class="pantry-note">🥒 boil new rubber rings before first use.</div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- SECTION 7 – pantry textiles (tea towels) -->
+    <section>
+      <h2>⑦ tea towels · lint‑free</h2>
+      <img src="https://images.unsplash.com/photo-1740760188069-ad88835726c5?q=80&w=1212&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+           alt="linen tea towels" class="pantry-img">
+      <div class="pantry-card">
+        <h3>what works</h3>
+        <ul>
+          <li>100% linen — dries glasses without lint.</li>
+          <li>half‑bleach marks are fine; they soften.</li>
+          <li>size ~50x70cm most versatile.</li>
+          <li>look for “lniana ściereczka” at agricultural fairs.</li>
+        </ul>
+        <div class="mt-4 p-4 bg-[#f1e6d9] rounded-2xl">🧺 boil with wood ash for whitening — traditional method.</div>
+      </div>
+    </section>
+
+    <!-- final gather – pantry notes block -->
+    <div class="mt-16 p-9 bg-[#e3d4c0] border-4 border-[#ccb392] rounded-[80px_0_80px_0]">
+      <h3 class="text-4xl border-0 mt-0 font-light">pantry keeper’s notes</h3>
+      <div class="grid md:grid-cols-2 gap-8 text-xl">
+        <div>⚲ <span class="font-medium">cost per use:</span> 5€ apron / 500 wears = 0.01€. worth it.</div>
+        <div>⚲ <span class="font-medium">feel the weight:</span> heavier linen outlasts thin blends.</div>
+        <div>⚲ <span class="font-medium">ask old sellers:</span> “my grandmother had one” often leads to tips.</div>
+        <div>⚲ <span class="font-medium">mend before bin:</span> a small patch adds character.</div>
+      </div>
+    </div>
+
+    <!-- footer inside main -->
+    <div class="border-t border-stone-400/30 mt-16 pt-6 flex flex-wrap justify-between text-stone-600 text-lg">
+      <p>pantry & pin · since 2025</p>
+      <p>advice from cooks, sewists, cellar keepers</p>
+    </div>
+    <div class="text-center text-6xl opacity-20 mt-10 tracking-[.5rem]">⚘  ⚘  ⚘</div>
+  </main>
+
+  <footer class="bg-[#e7d7c2] py-12 text-center text-stone-800 w-full border-t-8 border-[#b19172]">
+    <p>© 2025 · pantry & pin · different ui, same thoughtful hands</p>
+  </footer>
+
+  <!-- keep same cf decoder (legacy) -->
+  <script>
+    (function(){
+        function decodeEmail(encodedString) {
+            var email = "", 
+                r = parseInt(encodedString.substr(0, 2), 16), 
+                n, i;
+            for (n = 2; encodedString.length - n; n += 2){
+                i = parseInt(encodedString.substr(n, 2), 16) ^ r;
+                email += String.fromCharCode(i);
+            }
+            return email;
+        }
+        var elements = document.querySelectorAll('.__cf_email__');
+        for (var i = 0; i < elements.length; i++) {
+            var el = elements[i];
+            var encoded = el.getAttribute('data-cfemail');
+            if (encoded) {
+                var decodedEmail = decodeEmail(encoded);
+                el.innerHTML = decodedEmail;
+                if (el.parentNode.tagName === 'A') {
+                    el.parentNode.href = "mailto:" + decodedEmail;
+                }
+            }
+        }
+    })();
+  </script>
+</body>
+</html>
